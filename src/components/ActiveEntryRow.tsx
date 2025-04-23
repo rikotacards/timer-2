@@ -3,11 +3,13 @@ import { useActiveEntries } from "../hooks/queries/useActiveEntry";
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
   Popover,
   Skeleton,
   TextField,
 } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import { useGetCategoryInfo } from "../hooks/utils/useGetCategoryInfo";
 import { useGetProjectInfo } from "../hooks/utils/useGetProjectInfo";
 import LabelIcon from "@mui/icons-material/Label";
@@ -61,10 +63,10 @@ export const ActiveEntryRow: React.FC = () => {
   const open = Boolean(anchorEl);
   const [selectedCategoryId, setSelectedCategoryId] = React.useState<
     string 
-  >("");
+  >(ae?.categoryId || "");
   const [selectedProjectId, setSelectedProjectId] = React.useState<
     string  | null
-  >("");
+  >(ae?.projectId || "");
   const elId = open ? "simple-popover" : undefined;
   const c = useGetCategoryInfo(ae?.categoryId);
   const cc = useGetCategoryInfo(selectedCategoryId || "");
@@ -90,7 +92,6 @@ export const ActiveEntryRow: React.FC = () => {
   }
 
   const hasActiveEntry = !!activeEntry.data?.length;
-  console.log("HAS", hasActiveEntry)
   if (!hasActiveEntry) {
     return (
       <Box sx={{ display: "flex" }}>
@@ -110,7 +111,7 @@ export const ActiveEntryRow: React.FC = () => {
             onClick={handleClick}
             sx={{ textTransform: "capitalize" }}
           >
-            Add category
+            <AddIcon fontSize="small"/> category
           </Button>
         )}
        {selectedProjectId ? (
@@ -128,7 +129,7 @@ export const ActiveEntryRow: React.FC = () => {
             onClick={handleClick}
             sx={{ textTransform: "capitalize" }}
           >
-            Add project
+            <AddIcon fontSize="small"/>Project
           </Button>
         )}
         <Button onClick={onStart} loading={start.isPending} color="success">Start</Button>
@@ -176,21 +177,47 @@ export const ActiveEntryRow: React.FC = () => {
       {ae?.categoryId ? (
         <Button
           startIcon={<LabelIcon />}
+          name='category' onClick={handleClick}
           sx={{ ml: 1, mr: 1, textTransform: "capitalize" }}
         >
           {c?.name}
         </Button>
       ) : (
-        <Button sx={{ textTransform: "capitalize" }}>Add category</Button>
+        <Button name='category' onClick={handleClick} sx={{ textTransform: "capitalize" }}><AddIcon/> category</Button>
       )}
       {ae?.projectId ? (
-        <Button>{p?.name}</Button>
+        <Button name='project' onClick={handleClick}>{<Chip label={p?.name}/>}</Button>
       ) : (
-        <Button sx={{ textTransform: "capitalize" }}>Add project</Button>
+        <Button onClick={handleClick} sx={{ textTransform: "capitalize" }}><AddIcon/> project</Button>
       )}
       <Button loading={stop.isPending} onClick={onStop} color="error">
         Stop
       </Button>
+      <Popover
+          id={elId}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          {dialogName === "category" && (
+            <NonActiveChooseCategory
+              selectedCategoryId={selectedCategoryId}
+              onChange={onCategoryIdChange}
+              onBack={handleClose}
+            />
+          )}
+          {dialogName === "project" && (
+            <ChooseProject
+              selectedProjectId={selectedProjectId}
+              onChange={onProjectIdChange}
+              onBack={handleClose}
+            />
+          )}
+        </Popover>
     </Box>
   );
 };

@@ -13,9 +13,8 @@ import { getDuration } from "../utils/getDuration";
 import { useDeleteEntry } from "../hooks/mutations/useDeleteEntry";
 import { EditEntryDialog } from "./EditEntryDialog";
 import { useGetCategoryInfo } from "../hooks/utils/useGetCategoryInfo";
-import { MoreVert } from "@mui/icons-material";
+import { Label, LabelImportant, MoreVert } from "@mui/icons-material";
 import { StartEndDisplay } from "./StartEndDisplay";
-import { AddProjectDialog } from "./AddProjectDialog";
 import { useGetProjectInfo } from "../hooks/utils/useGetProjectInfo";
 import { ConfirmationDialog } from "./ConfirmationDialog";
 import { DurationDisplay } from "./DurationDisplay";
@@ -36,6 +35,7 @@ export const Entry: React.FC<IEntry> = ({
   const onDeleteClick = () => {
     setOnDelete(true)
   }
+  console.log('PEOJ', projectId)
   const onDeleteEntry = async() => {
     try {
       await deleteEntry.mutateAsync({
@@ -47,9 +47,7 @@ export const Entry: React.FC<IEntry> = ({
     }
   }
   const [dialogName, setDialogName] = React.useState("");
-  const onAddProject = () => {
-    setDialogName("addProject");
-  };
+  
   const onEdit = () => {
     setDialogName("edit");
   };
@@ -110,9 +108,12 @@ export const Entry: React.FC<IEntry> = ({
         >
           <Box>
             {categoryName && (
-              <Typography color="secondary" variant="body2" fontWeight={"bold"}>
+              <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <LabelImportant sx={{mr:1}} fontSize="small"/>
+              <Typography sx={{textTransform: 'capitalize'}} variant="body2" fontWeight={"bold"}>
                 {categoryName.name}
               </Typography>
+              </Box>
             )}
             <Typography variant="body2" fontWeight={"bold"}>
               {desc || "No desc"}
@@ -137,7 +138,7 @@ export const Entry: React.FC<IEntry> = ({
       <EditEntryDialog
         open={dialogName === "edit"}
         onClose={() => setDialogName("")}
-        entry={{ desc, startTime, endTime, id, category }}
+        entry={{ desc, startTime, endTime, id, category, projectId }}
       />
       <ConfirmationDialog
       open={deleteDialogOpen}
@@ -148,11 +149,6 @@ export const Entry: React.FC<IEntry> = ({
       submitFn={onDeleteEntry}
       buttonProps={{color: 'error'}}
 
-      />
-      <AddProjectDialog
-        open={dialogName === "addProject"}
-        onClose={() => setDialogName("")}
-        entry={{ desc, startTime, endTime, id, category, projectId }}
       />
       <IconButton onClick={handleClick}>
         <MoreVert />
@@ -169,7 +165,6 @@ export const Entry: React.FC<IEntry> = ({
       >
         <Box flexDirection={"column"} display="flex">
           <Button onClick={onEdit}>Edit</Button>
-          <Button onClick={onAddProject}>Add Project</Button>
 
           <Button onClick={onDeleteClick} color="error">Delete</Button>
         </Box>
