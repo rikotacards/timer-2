@@ -16,4 +16,5 @@ export interface Category {
 export interface Project {
     id: string;
     name: string;
+    color: string;
 }

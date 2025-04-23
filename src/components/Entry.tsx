@@ -13,13 +13,14 @@ import { getDuration } from "../utils/getDuration";
 import { useDeleteEntry } from "../hooks/mutations/useDeleteEntry";
 import { EditEntryDialog } from "./EditEntryDialog";
 import { useGetCategoryInfo } from "../hooks/utils/useGetCategoryInfo";
-import { Label, LabelImportant, MoreVert } from "@mui/icons-material";
+import {  LabelImportant, MoreVert } from "@mui/icons-material";
 import { StartEndDisplay } from "./StartEndDisplay";
 import { useGetProjectInfo } from "../hooks/utils/useGetProjectInfo";
 import { ConfirmationDialog } from "./ConfirmationDialog";
 import { DurationDisplay } from "./DurationDisplay";
 import { IEntry } from "../types";
 import { useNavigate } from "react-router-dom";
+import { DialogWithNavigation } from "./DialogWithNavigation";
 
 export const Entry: React.FC<IEntry> = ({
   desc,
@@ -109,13 +110,13 @@ export const Entry: React.FC<IEntry> = ({
           <Box>
             {categoryName && (
               <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <LabelImportant sx={{mr:1}} fontSize="small"/>
+                <LabelImportant sx={{mr:1, color: categoryName.color}} fontSize="small"/>
               <Typography sx={{textTransform: 'capitalize'}} variant="body2" fontWeight={"bold"}>
                 {categoryName.name}
               </Typography>
               </Box>
             )}
-            <Typography variant="body2" fontWeight={"bold"}>
+            <Typography variant="body2" fontWeight={"600"}>
               {desc || "No desc"}
             </Typography>
           </Box>
@@ -127,6 +128,7 @@ export const Entry: React.FC<IEntry> = ({
         <DurationDisplay hours={hours} minutes={minutes} seconds={seconds}/>
         <Box>
           {project && <Chip
+          sx={{bordercolor: project?.color}}
           size='small'
           onClick={onProjectClick}
           label={project?.name}
@@ -135,10 +137,16 @@ export const Entry: React.FC<IEntry> = ({
       </Box>
 
 
-      <EditEntryDialog
+      {/* <EditEntryDialog
         open={dialogName === "edit"}
         onClose={() => setDialogName("")}
         entry={{ desc, startTime, endTime, id, category, projectId }}
+      /> */}
+      <DialogWithNavigation
+       open={dialogName === "edit"}
+       onClose={() => setDialogName("")}
+       entry={{ desc, startTime, endTime, id, category, projectId }}
+
       />
       <ConfirmationDialog
       open={deleteDialogOpen}

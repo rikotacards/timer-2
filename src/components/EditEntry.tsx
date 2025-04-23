@@ -19,25 +19,18 @@ import { useCategories } from "../hooks/queries/useCategories";
 import { useProjects } from "../hooks/queries/useProjects";
 import { MoreHoriz } from "@mui/icons-material";
 interface EditEntryDialogProps {
-  open: boolean;
-  onClose: () => void;
   entry: IEntry;
+  onClose: () => void;
+  onPageChange: (page: number) => void;
 }
-export const EditEntryDialog: React.FC<EditEntryDialogProps> = ({
-  open,
-  onClose,
-  entry,
-}) => {
+export const EditEntry: React.FC<EditEntryDialogProps> = ({onPageChange, entry, onClose }) => {
   const [start, setStart] = React.useState<Dayjs | null>(
     dayjs(entry.startTime)
   );
   const [categoryId, setCategoryId] = React.useState(entry.category);
   const [projectId, setProjectId] = React.useState(entry.projectId);
   const categories = useCategories();
-  const [page, setPage] = React.useState(0)
-  const onPageChange = (index: number) => {
-    setPage(index);
-  }
+  
   const projects = useProjects();
   const [end, setEnd] = React.useState<Dayjs | null>(dayjs(entry.endTime));
   const [desc, setDesc] = React.useState(entry.desc);
@@ -55,18 +48,14 @@ export const EditEntryDialog: React.FC<EditEntryDialogProps> = ({
       category: categoryId,
       projectId: projectId,
     });
-    onClose();
   };
   return (
-    <Dialog onClose={onClose} open={open}>
-      <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
-        Edit Entry
-        <Box sx={{ ml: "auto" }}>
-          <IconButton size="small" onClick={onClose}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Box>
-      </DialogTitle>
+    <>
+      <Box sx={{ ml: "auto" }}>
+        <IconButton size="small" onClick={onClose}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </Box>
 
       <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
         <Typography sx={{ mb: 1 }} variant="body2">
@@ -89,14 +78,16 @@ export const EditEntryDialog: React.FC<EditEntryDialogProps> = ({
           onChange={(v) => setEnd(v)}
           value={end}
         />
-        <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
           <Typography sx={{ mb: 1 }} variant="body2">
             Category
           </Typography>
-          <Box sx={{ml:'auto'}}>
-        <IconButton onClick={() => onPageChange(1)} size='small'>
-          <MoreHoriz/>
-        </IconButton>
+          <Box sx={{ ml: "auto" }}>
+            <IconButton onClick={() => onPageChange(1)} size="small">
+              <MoreHoriz />
+            </IconButton>
           </Box>
         </Box>
         <Select
@@ -109,9 +100,18 @@ export const EditEntryDialog: React.FC<EditEntryDialogProps> = ({
             <MenuItem value={c.id}>{c.name}</MenuItem>
           ))}
         </Select>
-        <Typography sx={{ mb: 1 }} variant="body2">
-          Project
-        </Typography>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Typography sx={{ mb: 1 }} variant="body2">
+            Project
+          </Typography>
+          <Box sx={{ ml: "auto" }}>
+            <IconButton onClick={() => onPageChange(2)} size="small">
+              <MoreHoriz />
+            </IconButton>
+          </Box>
+        </Box>
         <Select
           value={projectId}
           onChange={(e) => setProjectId(e.target.value)}
@@ -125,6 +125,6 @@ export const EditEntryDialog: React.FC<EditEntryDialogProps> = ({
 
       <Button onClick={onClose}>Cancel</Button>
       <Button onClick={onSave}>Save</Button>
-    </Dialog>
+    </>
   );
 };

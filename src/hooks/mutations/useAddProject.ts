@@ -3,6 +3,7 @@ import supabase from '../../utils/supabase';
 import {Project} from '../../types'
 type NewProject = {
   name: string;
+  color: string;
 };
 
 
@@ -12,6 +13,7 @@ const addProject = async (project: NewProject): Promise<Project[]> => {
     .from('projects')
     .insert({
         name: project.name,
+        color: project.color
     })
     .select();
 
