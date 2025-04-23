@@ -103,15 +103,16 @@ export const Entry: React.FC<IEntry> = ({
           </Avatar>
         )}
       </Box>
-      <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <Box sx={{borderLeft: `3px solid ${categoryName?.color}`,  width: "100%", display: "flex", flexDirection: "column", pl:1 }}>
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "baseline" }}
         >
           <Box>
+            {!categoryName && <Typography color='textSecondary' variant='caption'>+ category</Typography>}
             {categoryName && (
               <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 <LabelImportant sx={{mr:1, color: categoryName.color}} fontSize="small"/>
-              <Typography sx={{textTransform: 'capitalize'}} variant="body2" fontWeight={"bold"}>
+              <Typography sx={{textTransform: 'capitalize', color: categoryName.color}} variant="body2" fontWeight={"bold"}>
                 {categoryName.name}
               </Typography>
               </Box>
