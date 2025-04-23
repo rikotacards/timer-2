@@ -1,4 +1,4 @@
-import { Box, Button, DialogTitle, TextField } from "@mui/material";
+import { Box, Button, DialogTitle, TextField, Typography } from "@mui/material";
 import React from "react";
 import { NonActiveChooseCategory } from "./NonActiveChooseCategory";
 import { ChooseProject } from "./ChooseProject";
@@ -36,7 +36,7 @@ export const NonActiveEntryForm: React.FC = () => {
     <Box sx={{ p: 1, display: "flex", flexDirection: "column", minWidth: 300 }}>
       {index === 0 && (
         <>
-          <DialogTitle variant="h6">Activity</DialogTitle>
+          <Typography fontWeight={'bold'} variant="h6">Activity</Typography>
           <TextField
             autoFocus
             value={desc}

@@ -6,6 +6,7 @@ import {
   MenuItem,
   Select,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { useCategories } from "../hooks/queries/useCategories";
@@ -31,7 +32,7 @@ export const NonActiveChooseCategory: React.FC<
             <ChevronLeft />
           </IconButton>
         </Box>
-        <DialogTitle>Add Category</DialogTitle>
+        <Typography fontWeight={'bold'}>Add Category</Typography>
       </Toolbar>
 
       <Select 

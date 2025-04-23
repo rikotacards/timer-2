@@ -6,6 +6,7 @@ import {
     MenuItem,
     Select,
     Toolbar,
+    Typography,
   } from "@mui/material";
   import React from "react";
   import { ChevronLeft } from "@mui/icons-material";
@@ -31,7 +32,7 @@ import { useProjects } from "../hooks/queries/useProjects";
               <ChevronLeft />
             </IconButton>
           </Box>
-          <DialogTitle>Add Project</DialogTitle>
+          <Typography fontWeight={'bold'}>Add Project</Typography>
         </Toolbar>
   
         <Select 

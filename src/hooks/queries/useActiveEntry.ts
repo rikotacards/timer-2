@@ -24,7 +24,7 @@ const fetchActiveEntries = async (): Promise<Entry[]> => {
 
 export const useActiveEntries = () => {
   return useQuery<Entry[], Error>({
-    queryKey: ['activeEntry'],
+    queryKey: ['activeEntry', "entries"],
     queryFn: fetchActiveEntries,
   });
 };
