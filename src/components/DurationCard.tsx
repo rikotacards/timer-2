@@ -13,9 +13,10 @@ export const DuarationCard: React.FC<DuarationCardProps> = ({desc, minutes, hour
           m: 1,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "flex-start",
         }}
       >
+        <Typography variant="caption">{desc}</Typography>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Typography fontWeight='bold' sx={{ mr: 1 }}>{hours}</Typography>
           <Typography sx={{ mr: 1 }}>hrs</Typography>
@@ -23,7 +24,6 @@ export const DuarationCard: React.FC<DuarationCardProps> = ({desc, minutes, hour
           <Typography sx={{ mr: 1 }}>min</Typography>
         </Box>
 
-        <Typography variant="caption">{desc}</Typography>
       </Card>
     )
 }

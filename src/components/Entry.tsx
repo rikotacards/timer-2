@@ -129,7 +129,7 @@ export const Entry: React.FC<IEntry> = ({
         <DurationDisplay hours={hours} minutes={minutes} seconds={seconds}/>
         <Box>
           {project && <Chip
-          sx={{bordercolor: project?.color}}
+          sx={{color: project?.color}}
           size='small'
           onClick={onProjectClick}
           label={project?.name}
