@@ -45,7 +45,7 @@ export const EditEntry: React.FC<EditEntryDialogProps> = ({onPageChange, entry, 
       description: desc,
       startTime: start,
       endTime: end,
-      category: categoryId,
+      categoryId: categoryId,
       projectId: projectId,
     });
   };

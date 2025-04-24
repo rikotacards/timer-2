@@ -3,7 +3,7 @@ export interface IEntry {
     endTime: string;
     desc: string;
     id: string;
-    category?: string;
+    categoryId?: string;
     projectId?: string;
 }
 

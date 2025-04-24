@@ -10,10 +10,10 @@ import {
 } from "@mui/material";
 import { useInsertCategory } from "../hooks/mutations/useAddCategory";
 import { useUpdateCategory } from "../hooks/mutations/useUpdateCategory";
+import { colors } from "../colors";
 interface EditProjectProps {
   category?: Category;
 }
-const colors = ["#d73a4a", "#94FD76", "#0366d6", "#aaaaaa"];
 export const EditCategory: React.FC<EditProjectProps> = ({ category }) => {
   const [projectName, setProjectName] = React.useState(category?.name || "");
   const [color, setColor] = React.useState(category?.color || "");

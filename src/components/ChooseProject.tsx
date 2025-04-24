@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    DialogTitle,
     IconButton,
     MenuItem,
     Select,

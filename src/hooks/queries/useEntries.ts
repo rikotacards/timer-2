@@ -8,7 +8,7 @@ export type Entry = {
   end_time: string;
   start_time: string;
   desc?: string;
-  category?: string;
+  categoryId?: string;
   projectId?: string;
   // Add other columns if needed
 };
@@ -26,7 +26,7 @@ const fetchEntries = async (args?: FetchEntriesFilters): Promise<Entry[]> => {
     q = q.eq("projectId", args.projectId);
   }
   if (args?.categoryId) {
-    q = q.eq("category", args.categoryId);
+    q = q.eq("categoryId", args.categoryId);
   }
   const { data, error } = await q;
   if (error) throw error;

@@ -7,14 +7,14 @@ type UpdatePayload = {
   description?: string;
   startTime?: string | null;
   endTime?: string;
-  category?: string;
+  categoryId?: string;
   projectId?: string;
 };
 
-const updateEntry = async ({ id, description, startTime, endTime, category, projectId }: UpdatePayload) => {
+const updateEntry = async ({ id, description, startTime, endTime, categoryId, projectId }: UpdatePayload) => {
   const { data, error } = await supabase
     .from('entries')
-    .update({ desc:description, start_time: startTime, end_time: endTime, category, projectId })
+    .update({ desc:description, start_time: startTime, end_time: endTime, categoryId, projectId })
     .eq('id', id)
     .select();
 

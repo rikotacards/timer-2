@@ -9,21 +9,21 @@ import {
 } from "@mui/material";
 import React from "react";
 import CircleIcon from "@mui/icons-material/Circle";
-import { useCategories } from "../hooks/queries/useCategories";
 import { Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useProjects } from "../hooks/queries/useProjects";
 interface NonActiveChooseCategoryProps {
   onBack: () => void;
-  selectedCategoryId?: string;
+  selectedProjectId?: string;
   onChange: (id: string) => void;
 }
-export const NonActiveChooseCategory: React.FC<
+export const ChooseProjectSimple: React.FC<
   NonActiveChooseCategoryProps
-> = ({ onBack, selectedCategoryId, onChange }) => {
-  const c = useCategories();
+> = ({ onBack, selectedProjectId, onChange }) => {
+  const c = useProjects();
   const nav = useNavigate();
   const onEdit = () => {
-    nav("/categories");
+    nav("/projects");
   };
   if (c.isLoading || !c.data) {
     return null;
@@ -32,7 +32,7 @@ export const NonActiveChooseCategory: React.FC<
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "200px" }}>
       <Toolbar>
-        <Typography fontWeight={"bold"}>Add Category</Typography>
+        <Typography fontWeight={"bold"}>Add Project</Typography>
         <Box sx={{ ml: "auto" }}>
           <IconButton size="small" onClick={onBack}>
             <Close fontSize="small" />
@@ -44,7 +44,7 @@ export const NonActiveChooseCategory: React.FC<
         sx={{ m: 1 }}
         autoFocus
         onChange={(v) => onChange(v.target.value)}
-        value={selectedCategoryId}
+        value={selectedProjectId}
       >
         {c.data.map((cat) => (
           <MenuItem value={cat.id}>
@@ -62,7 +62,7 @@ export const NonActiveChooseCategory: React.FC<
         ))}
       </Select>
       <Button onClick={onEdit} sx={{ textTransform: "capitalize" }}>
-        Edit categories
+        Edit projects
       </Button>
     </Box>
   );

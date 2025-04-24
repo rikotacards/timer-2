@@ -14,22 +14,19 @@ export const MyEntries: React.FC = () => {
   if (!data || isLoading) {
     return <LinearProgress />;
   }
-  const times = data.map((d) => ({
-    startTime: d.start_time,
-    endTime: d.end_time,
-  }));
+  
   const entriesByDate = groupEntriesByDate(data);
   const renderEntries = () => {
     const res = [];
-    for (const key in entriesByDate) {
-      const times = entriesByDate[key].map((e) => ({
+    for (const date in entriesByDate) {
+      const times = entriesByDate[date].map((e) => ({
         startTime: e.start_time,
         endTime: e.end_time,
       }));
       const total = getTotalDuration(times);
       const renderCategoryCards = () => {
         const res = [];
-        const eByCategory = groupEntriesByCategory(entriesByDate[key]);
+        const eByCategory = groupEntriesByCategory(entriesByDate[date]);
         for (const key in eByCategory) {
           const times = eByCategory[key]?.map((e) => ({
             startTime: e.start_time,
@@ -38,7 +35,7 @@ export const MyEntries: React.FC = () => {
           const total = getTotalDuration(times);
           res.push(
             <DuarationCard
-              desc={categories.data?.find((e) => e?.id == key)?.name || ''}
+              desc={categories.data?.find((e) => e?.id == key)?.name || ""}
               hours={total.hours}
               minutes={total.minutes}
             />
@@ -47,26 +44,40 @@ export const MyEntries: React.FC = () => {
         return res;
       };
       res.push(
-        <Box key={key}>
-          <Typography fontWeight={"bold"} sx={{ mb: 1 }} variant="body1">
-            {key}
-          </Typography>
+        <Box key={date}>
+          <Box
+            sx={{mb:1, display: "flex", flexDirection: "row", alignItems: "center" }}
+          >
+            <Typography fontWeight={"bold"}  variant="body1">
+              {date}
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItem: "center",
+                ml:2
+              }}
+            >
+              <Typography color='textSecondary' sx={{mr:1}}>Total</Typography>
+              <Typography fontWeight='bold' sx={{mr:1}}>{total.hours}</Typography>
+              <Typography sx={{mr:1}}>hrs</Typography>
+              <Typography fontWeight='bold' sx={{mr:1}}>{total.minutes}</Typography>
+              <Typography>min</Typography>
+            </Box>
+          </Box>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <DuarationCard
-              desc="Total time logged for the day"
-              hours={total.hours}
-              minutes={total.minutes}
-            />
+           
             {renderCategoryCards()}
           </Box>
-          {entriesByDate[key].map((t) => (
+          {entriesByDate[date].map((t) => (
             <Entry
               key={t.id}
               id={t.id}
               desc={t.desc || ""}
               startTime={t.start_time}
               endTime={t.end_time}
-              category={t.category}
+              categoryId={t.categoryId}
               projectId={t.projectId}
             />
           ))}
@@ -75,15 +86,17 @@ export const MyEntries: React.FC = () => {
     }
     return res;
   };
-  const total = getTotalDuration(times);
   return (
     <Box>
-      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-        <DuarationCard
-          hours={total.hours}
-          minutes={total.minutes}
-          desc="total time logged"
-        />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+      >
+      
       </Box>
       {renderEntries()}
     </Box>

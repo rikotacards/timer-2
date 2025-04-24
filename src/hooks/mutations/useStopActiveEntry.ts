@@ -4,6 +4,8 @@ import {
   UseMutationResult,
 } from "@tanstack/react-query";
 import supabase from "../../utils/supabase";
+import { useSnackbar } from "notistack";
+import { SUC_STOP_ACTIVITY } from "../../strings";
 
 type ActiveEntry = {
   id: string;
@@ -30,7 +32,7 @@ const stopActiveEntry = async (entry: ActiveEntry): Promise<ActiveEntry[]> => {
         start_time: entry.startTime,
         end_time: entry.endTime,
         projectId: entry.projectId,
-        category: entry.categoryId
+        categoryId: entry.categoryId
       })
     if (error) {
       throw error;
@@ -48,11 +50,13 @@ export const useStopActiveEntry = (): UseMutationResult<
   ActiveEntry // argument to mutate()
 > => {
   const queryClient = useQueryClient();
+  const {enqueueSnackbar} = useSnackbar();
 
   return useMutation<ActiveEntry[], Error, ActiveEntry>({
     mutationFn: stopActiveEntry, // ✅ CORRECT way to provide the function
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["activeEntry", "entries"] });
+      enqueueSnackbar(SUC_STOP_ACTIVITY, {variant: 'success'})
     },
   });
 };

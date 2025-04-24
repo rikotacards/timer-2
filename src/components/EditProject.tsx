@@ -11,43 +11,55 @@ import {
 import { useUpdateCategory } from "../hooks/mutations/useUpdateCategory";
 import { useAddProject } from "../hooks/mutations/useAddProject";
 import { useUpdateProject } from "../hooks/mutations/useUpdateProject";
+import { useInsertCategory } from "../hooks/mutations/useAddCategory";
+import CheckIcon from "@mui/icons-material/Check";
+import { colors } from "../colors";
 interface EditProjectProps {
-  project: Project;
+  project?: Project;
+  isCategory?: boolean;
+  onSuccess?: () => void;
 }
-const colors = ["#d73a4a", "#94FD76", "#0366d6", "#aaaaaa"];
-export const EditProject: React.FC<EditProjectProps> = ({ project }) => {
-  const [projectName, setProjectName] = React.useState(project.name);
-   const [color, setColor] = React.useState(project?.color || "");
- 
-  const addCategory = useAddProject();
-    const updateCategory = useUpdateProject();
-    const onClick = () => {
-        console.log('click')
-        if (project) {
-          //update
-          updateCategory.mutate({
-            id: project.id,
-            name: projectName,
-            color,
-          });
-        } else {
-          //insert
-          addCategory.mutate({
-            name: projectName,
-            color,
-          });
-        }
-      };
+export const EditProject: React.FC<EditProjectProps> = ({
+  project,
+  isCategory,
+  onSuccess,
+}) => {
+  const [projectName, setProjectName] = React.useState(project?.name);
+  const [color, setColor] = React.useState(project?.color || "");
+
+  const addProject = useAddProject();
+  const addCategory = useInsertCategory();
+  const updateProject = useUpdateProject();
+  const updateCategory = useUpdateCategory();
+  const onClick = () => {
+    console.log("click");
+    if (project && project.name) {
+      //update
+      (isCategory ? updateCategory : updateProject).mutate({
+        id: project.id,
+        name: projectName || "",
+        color,
+      });
+    } else {
+      //insert
+      (isCategory ? addCategory : addProject).mutate({
+        name: projectName || "",
+        color,
+      });
+    }
+    onSuccess?.();
+  };
   return (
-    <Box sx={{ p: 0, display: "flex", flexDirection: "column" }}>
+    <Box sx={{  display: "flex", flexDirection: "column", p: 1 }}>
+      <Typography sx={{ color, mb: 1 }}>{projectName}</Typography>
       <TextField
-      sx={{mb:2}}
+        size="small"
+        sx={{ mb: 2 }}
         value={projectName}
         onChange={(e) => {
           setProjectName(e.target.value);
         }}
       />
-      <Typography variant='body2'>Color</Typography>
       <Box sx={{ display: "flex" }}>
         {colors.map((c) => (
           <IconButton onClick={() => setColor(c)}>
@@ -55,7 +67,7 @@ export const EditProject: React.FC<EditProjectProps> = ({ project }) => {
               variant="circular"
               sx={{ backgroundColor: c, height: 20, width: 20 }}
             >
-                {' '}
+              {c === color ? <CheckIcon fontSize="small" /> : " "}
             </Avatar>
           </IconButton>
         ))}

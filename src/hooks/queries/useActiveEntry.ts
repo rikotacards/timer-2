@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import supabase from '../../utils/supabase';
 
-export type Entry = {
+export type ActiveEntry = {
   id: string;
   created_at: string;
   start_time: string;
@@ -12,7 +12,7 @@ export type Entry = {
   // Add other columns if needed
 };
 
-const fetchActiveEntries = async (): Promise<Entry[]> => {
+const fetchActiveEntries = async (): Promise<ActiveEntry[]> => {
   const { data, error } = await supabase
     .from('activeEntry')
     .select('*')
@@ -23,7 +23,7 @@ const fetchActiveEntries = async (): Promise<Entry[]> => {
 };
 
 export const useActiveEntries = () => {
-  return useQuery<Entry[], Error>({
+  return useQuery<ActiveEntry[], Error>({
     queryKey: ['activeEntry', "entries"],
     queryFn: fetchActiveEntries,
   });

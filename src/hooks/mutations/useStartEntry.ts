@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient, UseMutationResult } from '@tanstack/react-query';
 import supabase from '../../utils/supabase';
+import { enqueueSnackbar, useSnackbar } from 'notistack';
+import { SUC_START_ACTIVITIY } from '../../strings';
 
 type NewActiveEntry = {
   description: string;
@@ -34,11 +36,12 @@ export const useInsertActiveEntry = (): UseMutationResult<
   NewActiveEntry        // argument to mutate()
 > => {
   const queryClient = useQueryClient();
-
+  const {enqueueSnackbar} = useSnackbar()
   return useMutation<ActiveEntry[], Error, NewActiveEntry>({
     mutationFn: insertActiveEntry, // ✅ CORRECT way to provide the function
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['activeEntry']});
+      enqueueSnackbar(SUC_START_ACTIVITIY, {variant: 'success'})
     },
   });
 };

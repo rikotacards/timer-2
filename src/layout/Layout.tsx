@@ -5,6 +5,15 @@ import { useNavigate } from "react-router-dom";
 interface ILayout {
   children: React.ReactNode;
 }
+const routes = [
+  {
+    name: "home",
+    path: "/",
+  },
+  { name: "analytics", path: "/analytics" },
+  { name: "Categories", path: "/categories" },
+  { name: "Projects", path: "/projects" },
+];
 export const Layout: React.FC<ILayout> = ({ children }) => {
   const nav = useNavigate();
 
@@ -15,28 +24,19 @@ export const Layout: React.FC<ILayout> = ({ children }) => {
           <IconButton sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
-          <Typography
-            sx={{
-              cursor: "pointer",
-              textDecoration: "none",
-              textTransform: "capitalize",
-            }}
-            onClick={() => nav("/")}
-          >
-            Home
-          </Typography>
-          <Box sx={{ ml: 2 }}>
+          {routes.map((r) => (
             <Typography
               sx={{
                 cursor: "pointer",
                 textDecoration: "none",
                 textTransform: "capitalize",
+                mr: 2,
               }}
-              onClick={() => nav("/analytics")}
+              onClick={() => nav(r.path)}
             >
-              Analytics
+              {r.name}
             </Typography>
-          </Box>
+          ))}
         </Toolbar>
       </AppBar>
       <Toolbar />
