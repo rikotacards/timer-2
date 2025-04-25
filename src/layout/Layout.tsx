@@ -1,7 +1,7 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 interface ILayout {
   children: React.ReactNode;
 }
@@ -16,7 +16,9 @@ const routes = [
 ];
 export const Layout: React.FC<ILayout> = ({ children }) => {
   const nav = useNavigate();
+  const location = useLocation();
 
+  console.log(location)
   return (
     <>
       <AppBar elevation={0} variant="outlined">
@@ -26,6 +28,7 @@ export const Layout: React.FC<ILayout> = ({ children }) => {
           </IconButton>
           {routes.map((r) => (
             <Typography
+            color={r.path === location.pathname ? 'primary' : undefined}
             key={r.name}
               sx={{
                 cursor: "pointer",
