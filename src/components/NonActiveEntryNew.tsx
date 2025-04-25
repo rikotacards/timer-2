@@ -4,8 +4,8 @@ import {
   Box,
   Button,
   Chip,
+  Drawer,
   Popover,
-  Skeleton,
   TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,14 +13,17 @@ import { useGetCategoryInfo } from "../hooks/utils/useGetCategoryInfo";
 import { useGetProjectInfo } from "../hooks/utils/useGetProjectInfo";
 import { NonActiveChooseCategory } from "./NonActiveChooseCategory";
 import { useInsertActiveEntry } from "../hooks/mutations/useStartEntry";
-import { LabelImportant } from "@mui/icons-material";
+import {  LabelImportant } from "@mui/icons-material";
 import { ChooseProjectSimple } from "./ChooseProjectSimple";
+import { useIsSmall } from "../utils/useIsSmall";
+import { SmallChooseCategory } from "./SmallChooseCategory";
 export const NonActiveEntryNew: React.FC = () => {
   const activeEntry = useActiveEntries();
   const start = useInsertActiveEntry();
+  const [drawerOpen, setDrawer] = React.useState(false);
   const [nonActiveDesc, setNonActiveDesc] = React.useState("");
   const [dialogName, setDialogName] = React.useState("");
- 
+  const isSmall = useIsSmall();
   const onStart = async () => {
     await start.mutate({
       description: nonActiveDesc,
@@ -33,19 +36,25 @@ export const NonActiveEntryNew: React.FC = () => {
   );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (isSmall) {
+      setDrawer(true);
+      return;
+    }
     setAnchorEl(event.currentTarget);
     setDialogName(event.currentTarget.name);
   };
 
   const handleClose = () => {
+    if (isSmall) {
+      setDrawer(false);
+      return;
+    }
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
   const [selectedCategoryId, setSelectedCategoryId] =
     React.useState<string>("");
-  const [selectedProjectId, setSelectedProjectId] = React.useState<
-    string
-  >("");
+  const [selectedProjectId, setSelectedProjectId] = React.useState<string>("");
   const elId = open ? "simple-popover" : undefined;
   const cc = useGetCategoryInfo(selectedCategoryId || "");
   const pp = useGetProjectInfo(selectedProjectId || "");
@@ -60,9 +69,7 @@ export const NonActiveEntryNew: React.FC = () => {
   };
   if (activeEntry.isLoading) {
     return (
-      <Skeleton height={60} width={300} variant="rectangular">
-        <Box></Box>
-      </Skeleton>
+      null
     );
   }
 
@@ -138,6 +145,16 @@ export const NonActiveEntryNew: React.FC = () => {
             />
           )}
         </Popover>
+        <Drawer
+          anchor="bottom"
+          open={drawerOpen}
+          ModalProps={{
+            keepMounted: false, // ensures body styles get removed
+          }}
+          onClose={() => setDrawer(false)}
+        >
+          <SmallChooseCategory onClick={onCategoryIdChange}/>
+        </Drawer>
       </Box>
     </Box>
   );
