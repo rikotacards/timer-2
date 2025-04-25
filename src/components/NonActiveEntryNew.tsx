@@ -1,24 +1,15 @@
 import React from "react";
-import { useActiveEntries } from "../hooks/queries/useActiveEntry";
-import {
-  Box,
-  Button,
-  Chip,
-  Drawer,
-  Popover,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Chip, Drawer, Popover, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useGetCategoryInfo } from "../hooks/utils/useGetCategoryInfo";
 import { useGetProjectInfo } from "../hooks/utils/useGetProjectInfo";
 import { NonActiveChooseCategory } from "./NonActiveChooseCategory";
 import { useInsertActiveEntry } from "../hooks/mutations/useStartEntry";
-import {  LabelImportant } from "@mui/icons-material";
+import { LabelImportant } from "@mui/icons-material";
 import { ChooseProjectSimple } from "./ChooseProjectSimple";
 import { useIsSmall } from "../utils/useIsSmall";
-import { SmallChooseCategory } from "./SmallChooseCategory";
+import { NonActiveEntrySmall } from "./SmallChooseCategory";
 export const NonActiveEntryNew: React.FC = () => {
-  const activeEntry = useActiveEntries();
   const start = useInsertActiveEntry();
   const [drawerOpen, setDrawer] = React.useState(false);
   const [nonActiveDesc, setNonActiveDesc] = React.useState("");
@@ -46,7 +37,7 @@ export const NonActiveEntryNew: React.FC = () => {
 
   const handleClose = () => {
     if (isSmall) {
-      setDrawer(false);
+      // setDrawer(false);
       return;
     }
     setAnchorEl(null);
@@ -67,12 +58,24 @@ export const NonActiveEntryNew: React.FC = () => {
     setSelectedCategoryId(id);
     handleClose();
   };
-  if (activeEntry.isLoading) {
+
+  if (isSmall) {
     return (
-      null
+      <Box>
+        <Button onClick={() => setDrawer(true)} variant="outlined" fullWidth>Start activity</Button>
+        <Drawer
+          anchor="bottom"
+          open={drawerOpen}
+          ModalProps={{
+            keepMounted: false, // ensures body styles get removed
+          }}
+          onClose={() => setDrawer(false)}
+        >
+          <NonActiveEntrySmall onClose={() => setDrawer(false)} />
+        </Drawer>
+      </Box>
     );
   }
-
   return (
     <Box>
       <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -153,7 +156,7 @@ export const NonActiveEntryNew: React.FC = () => {
           }}
           onClose={() => setDrawer(false)}
         >
-          <SmallChooseCategory onClick={onCategoryIdChange}/>
+          <NonActiveEntrySmall onClose={() => setDrawer(false)} />
         </Drawer>
       </Box>
     </Box>

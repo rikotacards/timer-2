@@ -28,6 +28,7 @@ export const MyEntries: React.FC = () => {
         const res = [];
         const eByCategory = groupEntriesByCategory(entriesByDate[date]);
         for (const key in eByCategory) {
+          
           const times = eByCategory[key]?.map((e) => ({
             startTime: e.start_time,
             endTime: e.end_time,
@@ -37,6 +38,7 @@ export const MyEntries: React.FC = () => {
             <DuarationCard
               desc={categories.data?.find((e) => e?.id == key)?.name || ""}
               hours={total.hours}
+              color={categories.data?.find((e) => e?.id == key)?.color || ""}
               minutes={total.minutes}
             />
           );
@@ -66,7 +68,7 @@ export const MyEntries: React.FC = () => {
               <Typography>min</Typography>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Box sx={{ display: "flex", flexDirection: "row", overflowX:'scroll' }}>
            
             {renderCategoryCards()}
           </Box>
