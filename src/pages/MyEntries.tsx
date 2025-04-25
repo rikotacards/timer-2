@@ -87,17 +87,8 @@ export const MyEntries: React.FC = () => {
     return res;
   };
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          overflow: "hidden",
-        }}
-      >
+    <Box sx={{mt:1}}>
       
-      </Box>
       {renderEntries()}
     </Box>
   );

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient, UseMutationResult } from '@tanstack/react-query';
 import supabase from '../../utils/supabase';
-import { enqueueSnackbar, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { SUC_START_ACTIVITIY } from '../../strings';
 
 type NewActiveEntry = {

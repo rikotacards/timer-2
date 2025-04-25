@@ -1,12 +1,13 @@
 // useUpdateActiveEntry.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../../utils/supabase';
+import { Dayjs } from 'dayjs';
 
 type UpdatePayload = {
   id: string;
   description?: string;
-  startTime?: string | null;
-  endTime?: string;
+  startTime: Dayjs | null;
+  endTime: Dayjs | null;
   categoryId?: string;
   projectId?: string;
 };

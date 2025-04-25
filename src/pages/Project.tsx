@@ -1,5 +1,4 @@
 import React from "react";
-import { useCategories } from "../hooks/queries/useCategories";
 import {
   Box,
   Button,

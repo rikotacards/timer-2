@@ -2,7 +2,6 @@ import { Dialog } from "@mui/material";
 import React from "react";
 import { EditEntry } from "./EditEntry";
 import { IEntry } from "../types";
-import { ChooseProject } from "./ChooseProject";
 import { EditProjects } from "./EditProjects";
 import { EditCategories } from "./EditCategories";
 interface DialogWithNavigationProps {

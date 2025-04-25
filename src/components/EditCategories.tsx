@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { Project } from "../types";
 import { ChevronLeft } from "@mui/icons-material";
-import { EditProject } from "./EditProject";
 import { useCategories } from "../hooks/queries/useCategories";
 import { EditCategory } from "./EditCategory";
 interface AllProjectsPageProps {

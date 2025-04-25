@@ -5,7 +5,7 @@ import { useInsertCategory } from "../hooks/mutations/useAddCategory";
 interface AddNewCategoryProps {
   onBack: () => void;
 }
-export const AddNewCategory: React.FC<AddNewCategoryProps> = ({ onBack }) => {
+export const AddNewCategory: React.FC<AddNewCategoryProps> = () => {
   const [cName, setCName] = React.useState("");
   const add = useInsertCategory();
   const onAdd = () => {

@@ -165,12 +165,6 @@ export const Entry: React.FC<IEntry> = ({
           )}
         </Box>
       </Box>
-
-      {/* <EditEntryDialog
-        open={dialogName === "edit"}
-        onClose={() => setDialogName("")}
-        entry={{ desc, startTime, endTime, id, category, projectId }}
-      /> */}
       <DialogWithNavigation
         open={dialogName === "edit"}
         onClose={() => setDialogName("")}

@@ -3,7 +3,6 @@ import { NonActiveChooseCategory } from "./NonActiveChooseCategory";
 import { LabelImportant } from "@mui/icons-material";
 import {
   Box,
-  CircularProgress,
   TextField,
   Button,
   Chip,

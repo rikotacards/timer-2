@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  Dialog,
-  DialogTitle,
   IconButton,
   MenuItem,
   Select,
@@ -27,7 +25,7 @@ export const EditEntry: React.FC<EditEntryDialogProps> = ({onPageChange, entry, 
   const [start, setStart] = React.useState<Dayjs | null>(
     dayjs(entry.startTime)
   );
-  const [categoryId, setCategoryId] = React.useState(entry.category);
+  const [categoryId, setCategoryId] = React.useState(entry.categoryId);
   const [projectId, setProjectId] = React.useState(entry.projectId);
   const categories = useCategories();
   

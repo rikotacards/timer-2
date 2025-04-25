@@ -9,7 +9,7 @@ import { DuarationCard } from "../components/DurationCard";
 
 export const Analytics: React.FC = () => {
   const location = useLocation();
-  const state = location.state as {projectId: string}
+  const state = location.state as {projectId: string, categoryId: string}
   
   const [selectedProject, setSelectedProject] = React.useState(state?.projectId );
   const [selectedCategory, setSelectedCategory] = React.useState(state?.categoryId)
@@ -44,11 +44,11 @@ export const Analytics: React.FC = () => {
       {(entires.data || []).map((e) => (
         <Entry
           key={e.id}
-          desc={e.desc}
+          desc={e.desc || ""}
           startTime={e.start_time}
           endTime={e.end_time}
           id={e.id}
-          category={e.category}
+          categoryId={e.categoryId}
           projectId={e.projectId}
         />
       ))}
